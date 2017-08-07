@@ -1,0 +1,29 @@
+.cajaNegra{
+	background-color: #000000; /*conectado y le da el color*/
+
+}
+.cajaBlanca{
+	background-color: #F0FFFF;
+
+}
+.rojo{
+	color: #DC143C;
+
+}
+.azul{
+	color: #00008B;
+
+}
+td{
+	width: 30px;
+	height: 30px;
+	background-size: 50px;
+	border: 1px;
+}
+#laberinto{
+  width: 60%;
+	height: 10%;
+
+	background-size: contain;
+
+}
