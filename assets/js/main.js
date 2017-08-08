@@ -1,8 +1,8 @@
 var laberinto = document.getElementById('laberinto');
 var arriba = document.getElementById('arriba');
-var arriba = document.getElementById('abajo');
-var arriba = document.getElementById('izquierda');
-var arriba = document.getElementById('derecha');
+var abajo = document.getElementById('abajo');
+var izquierda = document.getElementById('izquierda');
+var derecha = document.getElementById('derecha');
 var mapa=[
 "******************",
 "*_________*______*",
@@ -15,33 +15,81 @@ var mapa=[
 "*_**_*__*****_**_*",
 "*o*__*________**W*",
 "******************"];
-
-function creaLaberinto ()
+var x;
+var y;
+var ruta = [];
+for (var i = 0 ; i < mapa.length ; i++){
+  ruta[i] = [];
+  for (var j = 0 ; j < mapa[0].length ; j++) {
+    ruta[i][j] = mapa[i][j];
+  }
+}
+function creaLaberinto (ruta)
 {
+    limpiar();
     var tabla = document.createElement('table');
     tabla.border = "1";
-    for (var i in mapa)
+    for (var i in ruta)
     {
           var columna = document.createElement('tr');
-          var espacio = mapa[i].split("");
-          for (var j in espacio)
+          for (var j = 0 ; j <ruta[i].length ; j++)
           {
                 var fila = document.createElement('td');
-                var contenido = document.createTextNode(espacio[j]);
-                if(espacio[j] == "*"){
-                    fila.setAttribute('class','cajaNegra');
-                } else if (espacio[j] == "_") {
-                    columna.setAttribute('class', 'cajaBlanca');
-                } else if (espacio[j] == "o") {
-                    fila.setAttribute('class', 'rojo');
-                } else if (espacio[j] == "W") {
-                    fila.setAttribute('class','azul')
+                if(ruta[i][j] == "*"){
+                    fila.style.backgroundColor="black";
+                } else if (ruta[i][j] == "o") {
+                    x = j;
+                    y = i;
+                    fila.style.backgroundColor="green";
+                    //fila.setAttribute('id',i+''+j);
+                } else if (ruta[i][j] == "W") {
+                    fila.style.backgroundColor="blue";
                 }
-                fila.appendChild(contenido);
                 columna.appendChild(fila);
           }
           tabla.appendChild(columna);
     }
     laberinto.appendChild(tabla);
 }
-creaLaberinto();
+creaLaberinto(ruta);
+
+arriba.onclick=function() {
+  if(ruta[y-1][x]!='*'){
+    ruta[y][x]='_';
+    y-=1;
+    ruta[y][x]='o';
+    creaLaberinto(ruta);
+  }
+}
+
+
+abajo.onclick=function() {
+  if(ruta[y+1][x]!='*'){
+    ruta[y][x]='_';
+    y+=1;
+    ruta[y][x]='o';
+    creaLaberinto(ruta);
+  }
+}
+
+derecha.onclick=function() {
+  if(ruta[y][x+1]!='*'){
+    ruta[y][x]='_';
+    x+=1;
+    ruta[y][x]='o';
+    creaLaberinto(ruta);
+  }
+}
+
+izquierda.onclick=function() {
+  if(ruta[y][x-1]!='*'){
+    ruta[y][x]='_';
+    y-=1;
+    ruta[y][x]='o';
+    creaLaberinto(ruta);
+  }
+}
+function limpiar()
+{
+   laberinto.innerHTML = '';
+}
